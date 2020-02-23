@@ -1,0 +1,32 @@
+apikey = 'e00e070ff664e28f2e1b568199db890a';
+otherkey = 'a89a2c364ea62c3a0e31da7f3191b3f3177e9ae0';
+
+let ts = Math.random();
+
+let code = ts + otherkey + apikey;
+console.log('code: ' + code);
+
+var crypto = require('crypto');
+
+let hash = CryptoJS.MD5(code).toString();
+hash = hash.toLowerCase();
+
+console.log('ts: ' + ts);
+console.log('otherkey: ' + otherkey);
+console.log('apikey:' + apikey);
+
+
+console.log('hash: ' + hash);
+
+
+postman.setEnvironmentVariable('apikey', apikey);
+postman.setEnvironmentVariable('ts', ts);
+postman.setEnvironmentVariable('hash', hash);
+
+
+url = http://gateway.marvel.com/v1/public/characters?
+
+http://gateway.marvel.com/v1/public/characters?ts={{ts}}&apikey={{apikey}}&hash={{hash}}
+	
+ts = 1;
+175541113e757d45c978347bd7877f22
