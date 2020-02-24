@@ -1,0 +1,9 @@
+http://marvel.com/comics/series/26024/_superior_spider-man_vol_2_otto-matic_2019?utm_campaign=apiRef&utm_source=e00e070ff664e28f2e1b568199db890a
+
+http://gateway.marvel.com/v1/public/series/26024
+
+issue = data.results.comics.available
+issue = issue - 1
+
+data.results.comics.items[available - 1].resourceURI
+data.results.comics.items[available - 1].name
