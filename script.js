@@ -13,6 +13,11 @@ hash = hash.toLowerCase();
 const urlBase = 'http://gateway.marvel.com/v1/public/characters?';
 const urlTail = 'ts=' + ts + '&apikey=' + apikey + '&hash=' + hash;
 
+issueName = '';
+issuePicture = '';
+
+characterID = 0;
+
 function readyFunctions(){
         console.log('readyfunction ran');
     getName();
@@ -40,7 +45,8 @@ async function getName(){
 function emptyDisplays(){
     console.log('emptyDisplays ran');
     $('#characterPic').empty();
-    $('#firstApperance').empty();
+    $('#firstCover').empty();
+    $('#firstTitle').empty();
 
     $('#recent').empty();
     $('#movies').empty();
@@ -49,7 +55,7 @@ function emptyDisplays(){
     $('#trending').empty();
 }
 
-function marvelAPI(searchName){
+ function marvelAPI(searchName){
     console.log('marvelAPI ran');
 
     let marvelSearch = urlBase + urlTail + '&name=' + searchName;
@@ -57,7 +63,7 @@ function marvelAPI(searchName){
 
     console.log('fetch code: ' + marvelSearch);
 
-    fetch(marvelSearch)
+     fetch(marvelSearch)
     .then(response => response.json())
     .then(responseJSON => {
         if (responseJSON.data.count === 0){
@@ -69,14 +75,64 @@ function marvelAPI(searchName){
             populateProfile(responseJSON);
         }
     })
-    .catch(err => alert("Couldn't find that character"));
+    .catch(err=> alert("Couldn't find that character"));
 
 }
 
-function populateProfile (responseJSON){
+ async function populateProfile (profileJSON){
     console.log('populateProfile ran')
 
+    characterID =  profileJSON.data.results[0].id;
+
+    issueName = profileJSON.data.results[0].comics.items[0].name;
+
+    console.log('issueName: ' + issueName);
+
+    let issueData = profileJSON.data.results[0].comics.items[0].resourceURI;
+    issueData = issueData + '?' + urlTail;
+
+    console.log('issueData: ' + issueData);
     
+    await fetch(issueData)
+    .then(response => response.json())
+    .then(responseJSON => issueCover(responseJSON))
+    .catch(err => alert('error'));
+
+    issuePicture = '<img src="' + issuePicture + '">';
+
+    issueName = '<h2>' + issueName + '</h2>';
+
+    $('#firstCover').append(
+        issuePicture
+    );
+
+    $('#firstTitle').append(
+        issueName
+    );
+
+    let issueCount = 6;
+        if (issueCount > profileJSON.data.results[0].comics.available){
+            issueCount = profileJSON.data.results[0].comics.available;
+            issueCount = issueCount + 1;
+        }
+
+    for (i = 1; i < issueCount; i++){
+
+    }
+
+}
+
+function issueCover(coverData){
+console.log('issueCover ran');
+
+    jpegFirst = coverData.data.results[0].images[0].path;
+    jpegSecond = coverData.data.results[0].images[0].extension;
+
+    issuePicture = jpegFirst + '.' + jpegSecond;
+
+    console.log('image link : ' + issuePicture);
+
+
 }
 
 $(readyFunctions);
