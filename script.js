@@ -19,6 +19,8 @@ issuePicture = '';
 characterID = 0;
 firstSearch = '';
 lastSearch = '';
+issuePath = '';
+issueExtension = '';
 
 function readyFunctions(){
         console.log('readyfunction ran');
@@ -108,13 +110,13 @@ async function getID(profileJSON){
 
 }
 
- async function populateProfile (profileJSON){
+function populateProfile (profileJSON){
     console.log('populateProfile ran')
 
     issueName = profileJSON.data.results[0].title;
 
-    let issuePath = profileJSON.data.results[0].images[0].path;
-    let issueExtension = profileJSON.data.results[0].images[0].extension;
+    issuePath = profileJSON.data.results[0].images[0].path;
+    issueExtension = profileJSON.data.results[0].images[0].extension;
     issuePicture = issuePath + '.' + issueExtension;
 
     console.log('issueName: ' + issueName);
@@ -133,15 +135,52 @@ async function getID(profileJSON){
         issueName
     );
 
-//    let issueCount = 6;
-//        if (issueCount > profileJSON.data.results[0].comics.available){
-//            issueCount = profileJSON.data.results[0].comics.available;
-//            issueCount = issueCount + 1;
-//        }
+    getSecondID();
+}
 
-//    for (i = 1; i < issueCount; i++){
+async function getSecondID(){
 
-//    }
+    lastSearch = urlBase + '/' + characterID + '/comics?' + urlTail + '&dateRange=1950-01-01,2090-01-01&orderBy=-onsaleDate';
+
+    await fetch(lastSearch)
+    .then(response => response.json())
+    .then(responseJSON => {
+        if (responseJSON.data.count === 0){
+            console.log('Count was: ' + responseJSON.data.count);
+            throw new Error(response.status);
+        }
+        else{
+            console.log('Count was: ' + responseJSON.data.count);
+            latestIssues(responseJSON);
+        }
+    })
+    .catch(err=> alert("Search Interrupted"));
+
+}
+
+function latestIssues(responseJSON){
+
+    let issueCount = 5;
+       if (issueCount > responseJSON.data.count){
+            issueCount = responseJSON.data.count;
+        }
+
+    for (i = 0; i < issueCount; i++){
+
+        issuePath = responseJSON.data.results[i].images[0].path;
+        issueExtension = responseJSON.data.results[i].images[0].extension;
+        issuePicture = issuePath + '.' + issueExtension;
+    
+        console.log('issuePicture: ' + issuePicture);
+    
+        issuePicture = '<img src="' + issuePicture + '">';
+    
+        $('#recent').append(
+            issuePicture
+        );
+
+    }
+
 
 }
 
