@@ -2,3 +2,12 @@ img{
     height: 200px;
     width: auto;
 }
+
+body{
+    display: flex;
+    flex-direction: column; 
+}
+
+section{
+    width: 100%;
+}

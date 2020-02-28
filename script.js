@@ -1,7 +1,11 @@
-const apikey = 'e00e070ff664e28f2e1b568199db890a';
-const otherkey = 'a89a2c364ea62c3a0e31da7f3191b3f3177e9ae0';
+const apikey = 'e00e070ff664e28f2e1b568199db890a'; //marvel api
+const otherkey = 'a89a2c364ea62c3a0e31da7f3191b3f3177e9ae0'; //marvel private api key
 const ts = '1';
 //hash = '175541113e757d45c978347bd7877f22';
+
+const bombAPI = '91c6a17d06ec9512747ce30cfef6796a316cdbdd';
+
+const googleAPI = 'AIzaSyCkYLATbWVu42KN49LP6pbjM1Gqd_a_B5Y';
 
 let code = ts + otherkey + apikey;
     console.log('code: ' + code);
@@ -13,6 +17,8 @@ hash = hash.toLowerCase();
 const urlBase = 'http://gateway.marvel.com/v1/public/characters';
 const urlTail = 'ts=' + ts + '&apikey=' + apikey + '&hash=' + hash;
 
+searchName = '';
+
 issueName = '';
 issuePicture = '';
 
@@ -21,6 +27,10 @@ firstSearch = '';
 lastSearch = '';
 issuePath = '';
 issueExtension = '';
+
+videoCap = '';
+
+gameID = 0;
 
 function readyFunctions(){
         console.log('readyfunction ran');
@@ -37,10 +47,10 @@ async function getName(){
         event.preventDefault();
         
         emptyDisplays();
-        let searchName = $('input[name="characterName"]').val(); 
+         searchName = $('input[name="characterName"]').val(); 
             console.log('You are searching for: ' + searchName);
         
-            marvelAPI(searchName);
+            marvelAPI();
         
         });
 
@@ -59,7 +69,7 @@ function emptyDisplays(){
     $('#trending').empty();
 }
 
- function marvelAPI(searchName){
+ function marvelAPI(){
     console.log('marvelAPI ran');
 
     let marvelSearch = urlBase + '?' + urlTail + '&name=' + searchName;
@@ -71,11 +81,11 @@ function emptyDisplays(){
     .then(response => response.json())
     .then(responseJSON => {
         if (responseJSON.data.count === 0){
-            console.log('Count was: ' + responseJSON.data.count);
+           
             throw new Error(response.status);
         }
         else{
-            console.log('Count was: ' + responseJSON.data.count);
+           
             getID(responseJSON);
         }
     })
@@ -97,11 +107,11 @@ async function getID(profileJSON){
     .then(response => response.json())
     .then(responseJSON => {
         if (responseJSON.data.count === 0){
-            console.log('Count was: ' + responseJSON.data.count);
+           
             throw new Error(response.status);
         }
         else{
-            console.log('Count was: ' + responseJSON.data.count);
+           
             populateProfile(responseJSON);
         }
     })
@@ -118,10 +128,6 @@ function populateProfile (profileJSON){
     issuePath = profileJSON.data.results[0].images[0].path;
     issueExtension = profileJSON.data.results[0].images[0].extension;
     issuePicture = issuePath + '.' + issueExtension;
-
-    console.log('issueName: ' + issueName);
-
-    console.log('issuePicture: ' + issuePicture);
 
     issuePicture = '<img src="' + issuePicture + '">';
 
@@ -146,11 +152,11 @@ async function getSecondID(){
     .then(response => response.json())
     .then(responseJSON => {
         if (responseJSON.data.count === 0){
-            console.log('Count was: ' + responseJSON.data.count);
+           
             throw new Error(response.status);
         }
         else{
-            console.log('Count was: ' + responseJSON.data.count);
+           
             latestIssues(responseJSON);
         }
     })
@@ -159,8 +165,10 @@ async function getSecondID(){
 }
 
 function latestIssues(responseJSON){
+    console.log('latestIssues ran');
 
-    let issueCount = 5;
+    
+    let issueCount = 5; //number of issues in the 'recent' section
        if (issueCount > responseJSON.data.count){
             issueCount = responseJSON.data.count;
         }
@@ -177,6 +185,98 @@ function latestIssues(responseJSON){
     
         $('#recent').append(
             issuePicture
+        );
+
+    }
+
+    findGameID();
+
+
+}
+
+async function findGameID(){
+    console.log('findGameID ran');
+
+    gameIDSearch = "https://www.giantbomb.com/api/characters?api_key=" + bombAPI + "&format=json&filter=aliases:" + searchName;
+
+    console.log('gameIDSearch: ' + gameIDSearch);
+    
+//    await fetch(gameIDSearch, {mode: "no-cors"})
+ //   .then(response => response.json())
+ //   .then(responseJSON => {     
+ //       if (responseJSON.number_of_total_results === 0){
+ //           console.log(responseJSON);
+ //           throw new Error(response.status);
+ //       }
+ //       else{
+ //           console.log(responseJSON);
+ //           latestGames(responseJSON);
+ //       }
+ //   })
+ //   .catch(err=> alert("No games found"));
+
+    latestGames(gameIDSearch);
+
+}
+
+function latestGames(gameJSON){
+    console.log('latestGames ran');
+
+    findMovieID();
+
+}
+
+function findMovieID(){
+    console.log('findMovieID ran');
+
+    latestMovies();
+}
+
+function latestMovies(){
+    console.log('latestMovies ran');
+    
+    findTrending();
+}
+
+async function findTrending(){
+    console.log('findTrending ran');
+
+    let googleSearch = 'https://www.googleapis.com/youtube/v3/search?key=' + googleAPI + '&part=snippet&type=video&q=' + searchName;
+
+    console.log('googleSearch: ' + googleSearch);
+
+   await fetch(googleSearch)
+    .then(response => response.json())
+    .then(responseJSON => {
+        if (responseJSON.pageInfo.totalResults == 0){
+           console.log('total results: ' + responseJSON.pageInfo.totalResults);
+            throw new Error(response.status);
+        }
+        else{
+            console.log('total results: ' + responseJSON.pageInfo.totalResults);
+            getTrending(responseJSON);
+        }
+    })
+    .catch(err=> alert("Couldn't find any videos"));
+
+}
+
+function getTrending(trendingJSON){
+    console.log('getTrending ran');
+
+    let videoCount = 5; //number of issues in the 'recent' section
+       if (videoCount > trendingJSON.pageInfo.totalResults){
+            videoCount = trendingJSON.pageInfo.totalResults;
+        }
+
+    for (i = 0; i < videoCount; i++){
+
+        videoCap = trendingJSON.items[i].snippet.thumbnails.default.url;
+    
+        videoCap = '<img src="' + videoCap + '">';
+    
+        $('#trending').append(
+            videoCap
         );
 
     }
