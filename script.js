@@ -7,10 +7,12 @@ const bombAPI = '91c6a17d06ec9512747ce30cfef6796a316cdbdd';
 
 const googleAPI = 'AIzaSyCkYLATbWVu42KN49LP6pbjM1Gqd_a_B5Y';
 
+const corsAnywhere = 'https://cors-anywhere.herokuapp.com/';
+
 let code = ts + otherkey + apikey;
     console.log('code: ' + code);
 
-let hash = md5(code);
+let hash = md5(code); //Brought in md5
 hash = hash.toString();
 hash = hash.toLowerCase();
 
@@ -39,11 +41,12 @@ function readyFunctions(){
 
 
 
-async function getName(){
+function getName(){
     
-    await $('#characterSearch').off('click');
+     $('#characterSearch').off('click');
 
-    await $('#characterSearch').on('click', '#findCharacter', function(event){
+     $('#characterSearch').on('click', '#findCharacter', function(event){
+        //fires twice with multiple clicks
         event.preventDefault();
         
         emptyDisplays();
@@ -197,30 +200,31 @@ function latestIssues(responseJSON){
 async function findGameID(){
     console.log('findGameID ran');
 
-    gameIDSearch = "https://www.giantbomb.com/api/characters?api_key=" + bombAPI + "&format=json&filter=aliases:" + searchName;
+    gameIDSearch = corsAnywhere + "https://www.giantbomb.com/api/characters?api_key=" + bombAPI + "&format=json&filter=aliases:" + searchName;
 
     console.log('gameIDSearch: ' + gameIDSearch);
     
-//    await fetch(gameIDSearch, {mode: "no-cors"})
- //   .then(response => response.json())
- //   .then(responseJSON => {     
- //       if (responseJSON.number_of_total_results === 0){
- //           console.log(responseJSON);
- //           throw new Error(response.status);
- //       }
- //       else{
- //           console.log(responseJSON);
- //           latestGames(responseJSON);
- //       }
- //   })
- //   .catch(err=> alert("No games found"));
-
-    latestGames(gameIDSearch);
+   await fetch(gameIDSearch) //{mode: "no-cors"}
+   .then(response => response.json())
+   .then(responseJSON => {     
+        if (responseJSON.number_of_total_results === 0){
+            console.log('game results: ' + responseJSON.number_of_total_results);
+            findMovieID();
+           throw new Error(response.status);
+        }
+        else{
+            console.log('game results: ' + responseJSON.number_of_total_results);
+           latestGames(responseJSON);
+        }
+    })
+       .catch(err=> alert("No games found"))
 
 }
 
 function latestGames(gameJSON){
     console.log('latestGames ran');
+
+    console.log('Json log: ' +  gameJSON);
 
     findMovieID();
 
