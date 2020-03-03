@@ -1,6 +1,6 @@
 img{
-    height: 200px;
-    width: auto;
+    width: 300px;
+    height: auto;
 }
 
 body{
@@ -10,4 +10,9 @@ body{
 
 section{
     width: 100%;
+}
+
+.nullSearch{
+    width: 100%;
+
 }

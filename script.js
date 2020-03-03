@@ -145,6 +145,8 @@ function populateProfile (profileJSON){
     );
 
     getSecondID();
+    findGameID();
+    findTrending();
 }
 
 async function getSecondID(){
@@ -176,13 +178,15 @@ function latestIssues(responseJSON){
             issueCount = responseJSON.data.count;
         }
 
-    for (i = 0; i < issueCount; i++){
+        console.log('issueCount: ' + issueCount);
+
+    for (i = 0; i < issueCount; i++){ //I need to add a if clause for empty objects 
 
         issuePath = responseJSON.data.results[i].images[0].path;
         issueExtension = responseJSON.data.results[i].images[0].extension;
         issuePicture = issuePath + '.' + issueExtension;
     
-        console.log('issuePicture: ' + issuePicture);
+        //console.log('issuePicture: ' + issuePicture);
     
         issuePicture = '<img src="' + issuePicture + '">';
     
@@ -192,15 +196,13 @@ function latestIssues(responseJSON){
 
     }
 
-    findGameID();
-
 
 }
 
 async function findGameID(){
     console.log('findGameID ran');
 
-    gameIDSearch = corsAnywhere + "https://www.giantbomb.com/api/characters?api_key=" + bombAPI + "&format=json&filter=aliases:" + searchName;
+    let gameIDSearch = corsAnywhere + "https://www.giantbomb.com/api/characters?api_key=" + bombAPI + "&format=json&filter=aliases:" + searchName;
 
     console.log('gameIDSearch: ' + gameIDSearch);
     
@@ -209,7 +211,29 @@ async function findGameID(){
    .then(responseJSON => {     
         if (responseJSON.number_of_total_results === 0){
             console.log('game results: ' + responseJSON.number_of_total_results);
-            findMovieID();
+           throw new Error(response.status);
+        }
+        else{
+            console.log('game results: ' + responseJSON.number_of_total_results);
+           findGames(responseJSON);
+        }
+    })
+       .catch(err=> alert("No games found"))
+
+}
+
+async function findGames(gameJSON){
+    console.log('findGames ran');
+
+    gameID = gameJSON.results[0].guid;
+
+    let guidSearch = corsAnywhere + 'https://www.giantbomb.com/api/character/' + gameID + '/?api_key=' + bombAPI + '&format=json';
+
+    await fetch(guidSearch) //{mode: "no-cors"}
+   .then(response => response.json())
+   .then(responseJSON => {     
+        if (responseJSON.number_of_total_results === 0){
+            console.log('game results: ' + responseJSON.number_of_total_results);
            throw new Error(response.status);
         }
         else{
@@ -221,25 +245,51 @@ async function findGameID(){
 
 }
 
-function latestGames(gameJSON){
+function latestGames(guidJSON){
     console.log('latestGames ran');
 
-    console.log('Json log: ' +  gameJSON);
+    let gameCount = 5; //number of issues in the 'recent' section
+    if (gameCount > guidJSON.results.games.length){
+        gameCount = guidJSON.results.games.length;
+     }
 
-    findMovieID();
+     console.log('There are ' + gameCount + ' games');  
 
-}
+     let gameCap = '';
 
-function findMovieID(){
-    console.log('findMovieID ran');
+     for (i = 0; i < gameCount; i++){
 
-    latestMovies();
-}
+        gameCap = guidJSON.results.games[i].api_detail_url;
+        
 
-function latestMovies(){
-    console.log('latestMovies ran');
+      populateGames(gameCap);
+        
+     }
     
-    findTrending();
+
+}
+
+async function populateGames(newGame){
+    console.log('populateGames ran');
+    
+    console.log('got game: ' + newGame);
+
+    newGame = corsAnywhere + newGame + '?api_key=' + bombAPI + '&format=json';
+
+    await fetch(newGame) //{mode: "no-cors"}
+   .then(response => response.json())
+   .then(responseJSON => loadGame(responseJSON))
+    .catch(err=> alert("game error"));
+
+}
+
+function loadGame(coverJSON){
+    console.log('loadGame ran');
+
+    let gameCover = coverJSON.results.images.medium_url;
+
+    console.log('cover jpg: ' + gameCover);
+
 }
 
 async function findTrending(){
@@ -247,17 +297,13 @@ async function findTrending(){
 
     let googleSearch = 'https://www.googleapis.com/youtube/v3/search?key=' + googleAPI + '&part=snippet&type=video&q=' + searchName;
 
-    console.log('googleSearch: ' + googleSearch);
-
    await fetch(googleSearch)
     .then(response => response.json())
     .then(responseJSON => {
         if (responseJSON.pageInfo.totalResults == 0){
-           console.log('total results: ' + responseJSON.pageInfo.totalResults);
             throw new Error(response.status);
         }
-        else{
-            console.log('total results: ' + responseJSON.pageInfo.totalResults);
+        else{       
             getTrending(responseJSON);
         }
     })
