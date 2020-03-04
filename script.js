@@ -286,7 +286,13 @@ async function populateGames(newGame){
 function loadGame(coverJSON){
     console.log('loadGame ran');
 
-    let gameCover = coverJSON.results.images.medium_url;
+    let gameCover = coverJSON.results.image.medium_url;
+
+    gameCover = '<img src="' + gameCover + '">';;
+
+    $('#games   ').append(
+        gameCover
+    );
 
     console.log('cover jpg: ' + gameCover);
 
