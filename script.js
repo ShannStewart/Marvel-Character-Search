@@ -21,6 +21,8 @@ const urlTail = 'ts=' + ts + '&apikey=' + apikey + '&hash=' + hash;
 
 searchName = '';
 
+searchPicture = '';
+
 issueName = '';
 issuePicture = '';
 
@@ -62,6 +64,7 @@ function getName(){
 function emptyDisplays(){
     console.log('emptyDisplays ran');
     $('#characterPic').empty();
+    $('#displayName').empty();
     $('#firstCover').empty();
     $('#firstTitle').empty();
 
@@ -106,6 +109,13 @@ async function getID(profileJSON){
         firstSearch = urlBase + '/' + characterID + '/comics?' + urlTail + '&dateRange=1950-01-01,2090-01-01&orderBy=onsaleDate';
             console.log('Searching: ' + firstSearch);
 
+            console.log('Fetching for character path: ' + profileJSON.data.results[0].thumbnail.path); 
+
+        let characterPath = profileJSON.data.results[0].thumbnail.path;
+        console.log('Searching for character path: ' + characterPath);
+        let characterExtension = profileJSON.data.results[0].thumbnail.extension;
+        searchPicture = characterPath + '.' + characterExtension;
+
     await fetch(firstSearch)
     .then(response => response.json())
     .then(responseJSON => {
@@ -134,7 +144,21 @@ function populateProfile (profileJSON){
 
     issuePicture = '<img src="' + issuePicture + '">';
 
+    let searchIdentity = '<h2>' + searchName + '</h2>';
+    console.log('identity is ' + searchIdentity);
+
     issueName = '<h2>' + issueName + '</h2>';
+
+
+    //console.log('Searching for character picture: ' + searchPicture);
+    searchPicture = '<img src="' + searchPicture + '">';
+
+    $('#characterPic').append(
+        searchPicture
+    );
+    $('#displayName').append(
+        searchIdentity
+    );
 
     $('#firstCover').append(
         issuePicture
@@ -271,8 +295,6 @@ function latestGames(guidJSON){
 
 async function populateGames(newGame){
     console.log('populateGames ran');
-    
-    console.log('got game: ' + newGame);
 
     newGame = corsAnywhere + newGame + '?api_key=' + bombAPI + '&format=json';
 
@@ -294,7 +316,7 @@ function loadGame(coverJSON){
         gameCover
     );
 
-    console.log('cover jpg: ' + gameCover);
+    //console.log('cover jpg: ' + gameCover);
 
 }
 

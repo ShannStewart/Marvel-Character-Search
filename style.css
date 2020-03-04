@@ -16,3 +16,18 @@ section{
     width: 100%;
 
 }
+
+.basicInfo{
+    display: flex;
+    flex-direction: row;
+}
+
+#profile{
+    display: flex;
+    flex-direction: column;
+}
+
+#firstApperance{
+    display: flex;
+    flex-direction: column;
+}
