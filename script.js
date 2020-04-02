@@ -5,7 +5,7 @@ const ts = '1';
 
 const bombAPI = '91c6a17d06ec9512747ce30cfef6796a316cdbdd';
 
-const googleAPI = 'AIzaSyCkYLATbWVu42KN49LP6pbjM1Gqd_a_B5Y';
+const googleAPI = 'AIzaSyCnkPdlkgj_wSO3QJS9GY4xwWyNtHFU9f0';
 
 const corsAnywhere = 'https://cors-anywhere.herokuapp.com/';
 
