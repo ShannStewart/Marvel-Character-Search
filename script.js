@@ -1,11 +1,15 @@
-const apikey = 'e00e070ff664e28f2e1b568199db890a'; //marvel api
-const otherkey = 'a89a2c364ea62c3a0e31da7f3191b3f3177e9ae0'; //marvel private api key
+const apikey = ''; //marvel api
+const otherkey = ''; //marvel private api key
 const ts = '1';
 //hash = '175541113e757d45c978347bd7877f22';
 
-const bombAPI = '91c6a17d06ec9512747ce30cfef6796a316cdbdd';
+const bombAPI = ''; //giantbomb API
 
+<<<<<<< HEAD
 const googleAPI = 'AIzaSyCnkPdlkgj_wSO3QJS9GY4xwWyNtHFU9f0';
+=======
+const googleAPI = ''; //google youtube API
+>>>>>>> 130c858e778059f5636dac2a9efa07eeb503f45f
 
 const corsAnywhere = 'https://cors-anywhere.herokuapp.com/';
 
