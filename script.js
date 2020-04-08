@@ -16,7 +16,7 @@ let hash = md5(code); //Brought in md5
 hash = hash.toString();
 hash = hash.toLowerCase();
 
-const urlBase = 'http://gateway.marvel.com/v1/public/characters';
+const urlBase = 'https://gateway.marvel.com/v1/public/characters';
 const urlTail = 'ts=' + ts + '&apikey=' + apikey + '&hash=' + hash;
 
 searchName = '';
