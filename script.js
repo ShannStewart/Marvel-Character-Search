@@ -170,7 +170,7 @@ function populateProfile (profileJSON){
 
     getSecondID();
     findGameID();
-    findTrending();
+    //findTrending();
 }
 
 async function getSecondID(){
