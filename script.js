@@ -42,6 +42,10 @@ newCard = '';
 cardFront= '';
 cardBack= '';
 
+issueError = 0;
+gameError = 0;
+trendError = 0;
+
 function readyFunctions(){
         console.log('readyfunction ran');
     getName();
@@ -196,7 +200,11 @@ async function getSecondID(){
         }
     })
     .catch(err=>  
-        {$('#errorLog').append('<p>Search Interrupted</p>')}    
+        {
+            $('#errorLog').append('<p>Search Interrupted</p>'),
+            console.log('Only ' + issueError +   ' issues are made. Need to fill space'),
+            spaceFill(issueError, 'recent')
+        }    
     );
     
 
@@ -236,6 +244,8 @@ function latestIssues(responseJSON){
             newCard
         );
 
+        issueError++;
+
     }
 
     if (issueCount < 5){
@@ -264,7 +274,12 @@ async function findGameID(){
            findGames(responseJSON);
         }
     })
-       .catch(err=>  $('#errorLog').append('<p>No games found</p>'));
+       .catch(err=>  {
+        $('#errorLog').append('<p>No games found</p>'),
+        console.log('Only ' + gameError +   ' games were made. Need to fill space'),
+        spaceFill(gameError, 'games')
+        
+       });
 
 }
 
@@ -349,7 +364,9 @@ function loadGame(coverJSON){
     $('#games').append(
         newCard
     );
-
+    
+        gameError ++;
+        
     //console.log('cover jpg: ' + gameCover);
 
 }
@@ -369,7 +386,11 @@ async function findTrending(){
             getTrending(responseJSON);
         }
     })
-    .catch(err=>  $('#errorLog').append("<p>Couldn't find any videos</p>"));
+    .catch(err=> {
+            $('#errorLog').append("<p>Couldn't find any videos</p>"),
+            console.log('Only ' + trendError +   ' videos were made. Need to fill space'),
+            spaceFill(trendError, 'trending')
+    });
 
 }
 
