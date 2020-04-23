@@ -195,7 +195,10 @@ async function getSecondID(){
             latestIssues(responseJSON);
         }
     })
-    .catch(err=>  $('#errorLog').append(<p>Search Interrupted</p>));
+    .catch(err=>  
+        {$('#errorLog').append('<p>Search Interrupted</p>')}    
+    );
+    
 
 }
 
@@ -236,7 +239,7 @@ function latestIssues(responseJSON){
     }
 
     if (issueCount < 5){
-        spaceFill(issueCount, )
+        spaceFill(issueCount, 'recent');
     }
 
 
@@ -261,7 +264,7 @@ async function findGameID(){
            findGames(responseJSON);
         }
     })
-       .catch(err=>  $('#errorLog').append(<p>No games found</p>));
+       .catch(err=>  $('#errorLog').append('<p>No games found</p>'));
 
 }
 
@@ -284,7 +287,7 @@ async function findGames(gameJSON){
            latestGames(responseJSON);
         }
     })
-    .catch(err=>  $('#errorLog').append(<p>No games found</p>));
+    .catch(err=>  $('#errorLog').append('<p>No games found</p>'));
 
 }
 
@@ -325,7 +328,7 @@ async function populateGames(newGame){
     await fetch(newGame) //{mode: "no-cors"}
    .then(response => response.json())
    .then(responseJSON => loadGame(responseJSON))
-   .catch(err=>  $('#errorLog').append(<p>Game error</p>));
+   .catch(err=>  $('#errorLog').append('<p>Game error</p>'));
 
 }
 
@@ -366,7 +369,7 @@ async function findTrending(){
             getTrending(responseJSON);
         }
     })
-    .catch(err=>  $('#errorLog').append(<p>Couldn't find any videos</p>));
+    .catch(err=>  $('#errorLog').append("<p>Couldn't find any videos</p>"));
 
 }
 
@@ -383,12 +386,25 @@ function getTrending(trendingJSON){
         videoCap = trendingJSON.items[i].snippet.thumbnails.default.url;
     
         videoCap = '<img src="' + videoCap + '">';
+
+        backInfo = '<img src="avengers.jpg">';
+
+        cardFront = videoCap;
+        cardBack = backInfo;
+
+        newCard = " <div class='flipper'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
     
         $('#trending').append(
-            videoCap
+            newCard
         );
 
     }
+
+    
+    if (videoCount < 5){
+        spaceFill(videoCount, 'trending');
+    }
+
 
 
 }
