@@ -31,3 +31,7 @@ section{
     display: flex;
     flex-direction: column;
 }
+
+#oGSearch{
+    align-content: center;
+}

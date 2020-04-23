@@ -36,18 +36,40 @@ videoCap = '';
 
 gameID = 0;
 
+appFrame = '<div><form id="characterSearch"><input type="text" name="characterName" id="characterName" value="Peter Parker" required><div><input type="submit" value="Search" class="findCharacter"></div></form><h1 class="logo">Marvel</h1></div><section class="basicInfo"> <div id="profile"> <div id="characterPic"></div> <div id="displayName"></div>  </div><div id="firstApperance"><div id="firstCover"></div> <div id="firstTitle"></div></div> </section><section class="infoRow">  <div id="recent"></div>  </section><section class="infoRow">    <div id="games"></div>  </section><section class="infoRow">    <div id="trending"></div>  </section>';
+
 function readyFunctions(){
         console.log('readyfunction ran');
+    readySearch();
     getName();
 }
 
+function readySearch(){
+     
+    $('#openingSearch').off('click');
+
+    $('#openingSearch').on('click', '.firstFind', function(event){
+       //fires twice with multiple clicks
+       event.preventDefault();
+       
+       emptyDisplays();
+        searchName = $('input[name="firstName"]').val(); 
+           console.log('You are searching for: ' + searchName);
+
+           $('#marvelApp').append(appFrame);
+           $('#oGSearch').empty();
+       
+           marvelAPI();
+       
+       });
+}
 
 
 function getName(){
     
      $('#characterSearch').off('click');
 
-     $('#characterSearch').on('click', '#findCharacter', function(event){
+     $('#characterSearch').on('click', '.findCharacter', function(event){
         //fires twice with multiple clicks
         event.preventDefault();
         
@@ -86,7 +108,7 @@ function emptyDisplays(){
      fetch(marvelSearch)
     .then(response => response.json())
     .then(responseJSON => {
-        if (responseJSON.data.count === 0){
+        if (responseJSON.data.count === 0){ 
            
             throw new Error(response.status);
         }
