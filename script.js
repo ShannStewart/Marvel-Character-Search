@@ -36,6 +36,12 @@ videoCap = '';
 
 gameID = 0;
 
+backInfo = '';
+
+newCard = '';
+cardFront= '';
+cardBack= '';
+
 function readyFunctions(){
         console.log('readyfunction ran');
     getName();
@@ -189,7 +195,7 @@ async function getSecondID(){
             latestIssues(responseJSON);
         }
     })
-    .catch(err=> alert("Search Interrupted"));
+    .catch(err=>  $('#errorLog').append(<p>Search Interrupted</p>));
 
 }
 
@@ -213,11 +219,24 @@ function latestIssues(responseJSON){
         //console.log('issuePicture: ' + issuePicture);
     
         issuePicture = '<img src="' + issuePicture + '">';
+
+        backInfo = '<img src=avengers.jpg>';
+
+        cardFront = issuePicture;
+        cardBack = backInfo;
+
+        newCard = " <div class='flipper'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
+        
+        //add avengers jpg temp
     
         $('#recent').append(
-            issuePicture
+            newCard
         );
 
+    }
+
+    if (issueCount < 5){
+        spaceFill(issueCount, )
     }
 
 
@@ -242,7 +261,7 @@ async function findGameID(){
            findGames(responseJSON);
         }
     })
-       .catch(err=> alert("No games found"))
+       .catch(err=>  $('#errorLog').append(<p>No games found</p>));
 
 }
 
@@ -265,7 +284,7 @@ async function findGames(gameJSON){
            latestGames(responseJSON);
         }
     })
-       .catch(err=> alert("No games found"))
+    .catch(err=>  $('#errorLog').append(<p>No games found</p>));
 
 }
 
@@ -289,6 +308,11 @@ function latestGames(guidJSON){
       populateGames(gameCap);
         
      }
+
+     if (gameCount < 5){
+        spaceFill(gameCount, 'games');
+    }
+
     
 
 }
@@ -301,7 +325,7 @@ async function populateGames(newGame){
     await fetch(newGame) //{mode: "no-cors"}
    .then(response => response.json())
    .then(responseJSON => loadGame(responseJSON))
-    .catch(err=> alert("game error"));
+   .catch(err=>  $('#errorLog').append(<p>Game error</p>));
 
 }
 
@@ -310,10 +334,17 @@ function loadGame(coverJSON){
 
     let gameCover = coverJSON.results.image.medium_url;
 
-    gameCover = '<img src="' + gameCover + '">';;
+    gameCover = '<img src="' + gameCover + '">';
 
-    $('#games   ').append(
-        gameCover
+    backInfo = '<img src="avengers.jpg">';
+
+        cardFront = gameCover;
+        cardBack = backInfo;
+
+        newCard = " <div class='flipper'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
+
+    $('#games').append(
+        newCard
     );
 
     //console.log('cover jpg: ' + gameCover);
@@ -335,7 +366,7 @@ async function findTrending(){
             getTrending(responseJSON);
         }
     })
-    .catch(err=> alert("Couldn't find any videos"));
+    .catch(err=>  $('#errorLog').append(<p>Couldn't find any videos</p>));
 
 }
 
@@ -360,6 +391,26 @@ function getTrending(trendingJSON){
     }
 
 
+}
+
+function spaceFill(counter, space){
+    console.log('spaceFill ran');
+
+    space = '#' + space;
+
+    console.log ('spaceholders are going to ' + space);
+
+    for (i = counter; i < 5; i++){
+
+        cardFront = '<img src=avengers.jpg>';
+        cardBack = '<img src=avengers.jpg>';
+
+        newCard = " <div class='flipper'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
+    
+        $(space).append(
+            newCard
+        );
+    }
 }
 
 $(readyFunctions);
