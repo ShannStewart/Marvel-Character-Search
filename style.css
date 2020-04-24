@@ -32,8 +32,13 @@ section{
     flex-direction: column;
 }
 
+.row{
+    display: flex;
+    flex-direction: row;
+}
+
 .flipper{
-    width: 200px;
+    width: 20%;
   height: 260px;
   perspective: 600px;
 }
