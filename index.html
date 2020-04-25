@@ -7,49 +7,16 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div>
-        <form id='characterSearch'>
-            <input type="text" name="characterName" id="characterName" value="Peter Parker" required>
-                <div>
-                    <input type="submit" value="Search" id="findCharacter">
-                </div>
-        </form>
-        <h1 class='logo'>Marvel</h1>
-        <header id='errorLog' style='color:red'></header>
-    </div>
-    
-    <section class='basicInfo'>  
-        <div id='profile'> 
-            <div id='characterPic'></div> 
-            <div id='displayName'></div>  
+    <main id="marvelApp">
+        <div id='oGSearch'>
+            <form id='openingSearch'>
+                <input type="text" name="firstName" id="firstName" value="Peter Parker" required>
+                    <div>
+                        <input type="submit" value="Search" class="firstFind">
+                    </div>
+            </form>
         </div>
-       
-        <div id='firstApperance'>
-            <div class='flipper'>
-                <div class='card'>
-                    <div id='firstCover' class='flipSide cardFront'></div> 
-                    <div id='firstTitle' class='flipSide cardBack'></div>
-                </div>
-            </div>
-        </div> 
-    </section>
-
-    <section class='infoRow'>  
-        <div id='recent' class='row'>
-            
-        </div>  
-    </section>
-
-    <section class='infoRow '>    
-        <div id='games' class='row'>
-        </div>  
-    </section>
-
-    <section class='infoRow '>    
-        <div id='trending' class='row'>
-        </div>  
-    </section>
-
+    </main>
     
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="md5.js"></script>

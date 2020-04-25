@@ -48,16 +48,35 @@ trendError = 0;
 
 function readyFunctions(){
         console.log('readyfunction ran');
-    getName();
+    readySearch();
 }
 
+function readySearch(){
+     
+    $('#openingSearch').off('click');
+
+    $('#openingSearch').on('click', '.firstFind', function(event){
+       //fires twice with multiple clicks
+       event.preventDefault();
+       
+       emptyDisplays();
+        searchName = $('input[name="firstName"]').val(); 
+           console.log('You are searching for: ' + searchName);
+
+           $('#marvelApp').append(appFrame);
+           $('#oGSearch').empty();
+       
+           marvelAPI();
+       
+       });
+}
 
 
 function getName(){
     
      $('#characterSearch').off('click');
 
-     $('#characterSearch').on('click', '#findCharacter', function(event){
+     $('#characterSearch').on('click', '.findCharacter', function(event){
         //fires twice with multiple clicks
         event.preventDefault();
         
@@ -96,7 +115,7 @@ function emptyDisplays(){
      fetch(marvelSearch)
     .then(response => response.json())
     .then(responseJSON => {
-        if (responseJSON.data.count === 0){
+        if (responseJSON.data.count === 0){ 
            
             throw new Error(response.status);
         }
@@ -178,6 +197,7 @@ function populateProfile (profileJSON){
         issueName
     );
 
+    getName();
     getSecondID();
     findGameID();
     //findTrending();

@@ -3,11 +3,6 @@ img{
     height: 461.111px;
 }
 
-body{
-    display: flex;
-    flex-direction: column; 
-}
-
 section{
     width: 100%;
 }
@@ -70,3 +65,27 @@ section{
   .card:hover{
     transform: rotateY(180deg);
   }
+#oGSearch {
+    margin-left: 44%;
+    margin-right: 50%;
+}
+
+.firstFind {
+    width: 160.8px;
+    height: 22px;
+}
+
+html {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    margin: 0px;
+    min-height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+}
