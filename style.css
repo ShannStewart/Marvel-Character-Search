@@ -1,6 +1,6 @@
 img{
     width: 300px;
-    height: auto;
+    height: 461.111px;
 }
 
 body{
@@ -38,8 +38,8 @@ section{
 }
 
 .flipper{
-    width: 20%;
-  height: 260px;
+    width: 300px;
+    height: 461.1px;
   perspective: 600px;
 }
 
