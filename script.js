@@ -41,7 +41,6 @@ appFrame = '<div><form id="characterSearch"><input type="text" name="characterNa
 function readyFunctions(){
         console.log('readyfunction ran');
     readySearch();
-    getName();
 }
 
 function readySearch(){
@@ -190,6 +189,7 @@ function populateProfile (profileJSON){
         issueName
     );
 
+    getName();
     getSecondID();
     findGameID();
     //findTrending();
