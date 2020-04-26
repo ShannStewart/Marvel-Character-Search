@@ -3,6 +3,11 @@ img{
     height: 461.111px;
 }
 
+#characterPic img{
+    height: 461.111px;
+    width: auto;
+}
+
 section{
     width: 100%;
 }
@@ -88,4 +93,27 @@ body {
     width: 100%;
     flex-direction: column;
     justify-content: center;
+}
+
+.infoRow div{
+ display: flex;
+ flex-direction: row;
+}
+
+.flipper {
+    height: 461.1px;
+    perspective: 600px;
+}
+
+div .flipper {
+    width: 20%;
+}
+
+.flipper img {
+    width: 100%;
+}
+
+#firstApperance .flipper {
+    height: 461.111px;
+    width: 300px;
 }

@@ -46,6 +46,8 @@ issueError = 0;
 gameError = 0;
 trendError = 0;
 
+appFrame = '<div><form id="characterSearch"><input type="text" name="characterName" id="characterName" value="Peter Parker" required><div><input type="submit" value="Search" class="findCharacter"></div></form><h1 class="logo">Marvel</h1></div><section class="basicInfo"> <div id="profile"> <div id="characterPic"></div> <div id="displayName"></div>  </div><div id="firstApperance">  <div class="flipper"><div class="card"><div id="firstCover" class="flipSide cardFront"></div><div id="firstTitle" class="flipSide cardBack"></div></div></div></div> </section><section class="infoRow">  <div id="recent"></div>  </section><section class="infoRow">    <div id="games"></div>  </section><section class="infoRow">    <div id="trending"></div>  </section>';
+
 function readyFunctions(){
         console.log('readyfunction ran');
     readySearch();
