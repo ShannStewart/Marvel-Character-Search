@@ -3,6 +3,12 @@ img{
     height: 461.111px;
 }
 
+.cardBack div{
+    width: 300px;
+    height: 461.111px;
+    background-image: 'avengers.jpg';
+}
+
 #characterPic img{
     height: 461.111px;
     width: auto;
@@ -70,15 +76,6 @@ section{
   .card:hover{
     transform: rotateY(180deg);
   }
-#searchBar {
-    margin-left: 44%;
-    margin-right: 50%;
-}
-
-.OG{
-    margin-left: 44%;
-    margin-right: 50%;
-}
 
 .marvelLogo{
     width: 200px;
@@ -96,13 +93,19 @@ html {
     width: 100%;
 }
 
+div#oGSearch {
+    margin-left: 43%;
+}
+
 body {
     display: flex;
     margin: 0px;
     min-height: 100%;
-    width: 100%;
+    max-width: 96%;
     flex-direction: column;
     justify-content: center;
+    background-image: url('black.jpg');
+    padding: 1%;
 }
 
 .infoRow div{
@@ -136,4 +139,22 @@ input#firstName {
 .firstFind {
     width: 200px;
     height: 22px;
+}
+
+div#displayName {
+    background: #EC1D23;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+h2 {
+    font-size: 50px;
+    color: white;
+    font-family: 'Marvel';
+}
+
+@font-face {
+font-family: 'Marvel';
+src: url('MarvelRegular.ttf')
 }
