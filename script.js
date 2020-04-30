@@ -32,6 +32,10 @@ lastSearch = '';
 issuePath = '';
 issueExtension = '';
 
+issueTitle = '';
+issueDescibe = '';
+issueLink = '';
+
 videoCap = '';
 
 gameID = 0;
@@ -173,12 +177,23 @@ function populateProfile (profileJSON){
     issueExtension = profileJSON.data.results[0].images[0].extension;
     issuePicture = issuePath + '.' + issueExtension;
 
+    issueDescibe = profileJSON.data.results[0].description;
+    issueLink = profileJSON.data.results[0].urls[0].url;
+
+    if (issueDescibe = 'null'){
+        issueDescibe = 'A summery for this issue is not in the database';
+    }
+
+    //console.log ('The story is: ' + issueDescibe);
+   
     issuePicture = '<img src="' + issuePicture + '">';
 
     let searchIdentity = '<h2>' + searchName + '</h2>';
     console.log('identity is ' + searchIdentity);
 
     issueName = '<h2>' + issueName + '</h2>';
+    issueName = issueName + '<p>' + issueDescibe + '</p>';
+    issueName = '<div>' + issueName + '</div>';
 
 
     //console.log('Searching for character picture: ' + searchPicture);
@@ -208,6 +223,7 @@ function populateProfile (profileJSON){
 async function getSecondID(){
 
     lastSearch = urlBase + '/' + characterID + '/comics?' + urlTail + '&dateRange=1950-01-01,2090-01-01&orderBy=-onsaleDate';
+    console.log("Last Search: " + lastSearch);
 
     await fetch(lastSearch)
     .then(response => response.json())
@@ -248,12 +264,24 @@ function latestIssues(responseJSON){
         issuePath = responseJSON.data.results[i].images[0].path;
         issueExtension = responseJSON.data.results[i].images[0].extension;
         issuePicture = issuePath + '.' + issueExtension;
+
+        issueTitle = responseJSON.data.results[i].title;
+        //console.log('the title is' + issueTitle);
+        issueDescibe = responseJSON.data.results[i].description;
+        issueDescibe = truncate(issueDescibe);
+        //console.log('the story is ' + issueDescibe);
     
         //console.log('issuePicture: ' + issuePicture);
     
         issuePicture = '<img src="' + issuePicture + '">';
 
-        backInfo = '<img src=avengers.jpg>';
+
+        backInfo = '<h2>' + issueTitle + '</h2>';
+        backInfo = backInfo + '<p>' + issueDescibe + '</p>';
+        backInfo = '<div>' + backInfo + '</div>';
+        console.log('backinfo is' + backInfo);
+        //backInfo = '<img src=avengers.jpg>';
+        //backInfo Marker
 
         cardFront = issuePicture;
         cardBack = backInfo;
@@ -312,6 +340,7 @@ async function findGames(gameJSON){
     gameID = gameJSON.results[0].guid;
 
     let guidSearch = corsAnywhere + 'https://www.giantbomb.com/api/character/' + gameID + '/?api_key=' + bombAPI + '&format=json';
+    console.log("GUID: " + guidSearch);
 
     await fetch(guidSearch) //{mode: "no-cors"}
    .then(response => response.json())
@@ -362,6 +391,7 @@ async function populateGames(newGame){
     console.log('populateGames ran');
 
     newGame = corsAnywhere + newGame + '?api_key=' + bombAPI + '&format=json';
+    console.log("new game: " + newGame);
 
     await fetch(newGame) //{mode: "no-cors"}
    .then(response => response.json())
@@ -398,6 +428,7 @@ async function findTrending(){
     console.log('findTrending ran');
 
     let googleSearch = 'https://www.googleapis.com/youtube/v3/search?key=' + googleAPI + '&part=snippet&type=video&q=' + searchName;
+    console.log('google search: ' + googleSearch);
 
    await fetch(googleSearch)
     .then(response => response.json())
@@ -471,6 +502,12 @@ function spaceFill(counter, space){
             newCard
         );
     }
+}
+
+function truncate(str) {
+    let newStr = str.split(" ").splice(0,35).join(" ");
+    newStr = newStr + '...';
+    return newStr; 
 }
 
 $(readyFunctions);

@@ -6,7 +6,6 @@ img{
 .cardBack div{
     width: 300px;
     height: 461.111px;
-    background-image: 'avengers.jpg';
 }
 
 #characterPic img{
@@ -62,6 +61,7 @@ section{
     height: 100%;
     width: 100%;
     backface-visibility: hidden;
+    filter: drop-shadow(2px 4px 6px black);
   }
 
   .cardFront{
@@ -69,9 +69,42 @@ section{
 
   .cardBack{
     background: black;
-    color: white;
+    background-image: url('avengers.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: #FFAF3A;
     transform: rotateY( 180deg );
   }
+
+  .cardBack div {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.cardBack div h2 {
+    margin-left: 5%;
+    margin-right: 5%;
+    color: black;
+    background-color: white;
+    opacity: 90%;
+    font-size: 30px;
+    font-style: oblique;
+}
+
+.cardBack div p {
+    margin-right: 10%;
+    margin-left: 10%;
+    color: black;
+    background-color: white;
+    opacity: 90%;
+    font-size: 20px;
+    font-style: oblique;
+}
 
   .card:hover{
     transform: rotateY(180deg);
@@ -110,7 +143,6 @@ body {
 
 .infoRow div{
  display: flex;
- flex-direction: row;
 }
 
 .flipper {
