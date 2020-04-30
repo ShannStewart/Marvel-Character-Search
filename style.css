@@ -1,3 +1,32 @@
+@media only screen and (max-width: 768px){
+    .flip4{
+        display: none !important;
+    }
+
+    div .flipper{
+        width: 25% !important;
+    }
+
+    .cardBack div p {
+        display: none !important;
+    }
+
+    .cardBack div h2 {
+        margin-left: 5%;
+        margin-right: 5%;
+        color: black;
+        background-color: white;
+        opacity: 90%;
+        font-size: 10px !important;
+        font-style: oblique;
+    }
+
+    #firstApperance{
+        display: none !important;
+     }
+
+}
+
 img{
     width: 300px;
     height: 461.111px;
@@ -40,12 +69,6 @@ section{
 .row{
     display: flex;
     flex-direction: row;
-}
-
-.flipper{
-    width: 300px;
-    height: 461.1px;
-  perspective: 600px;
 }
 
 .card {
@@ -198,3 +221,5 @@ h2 {
 font-family: 'Marvel';
 src: url('MarvelRegular.ttf')
 }
+
+

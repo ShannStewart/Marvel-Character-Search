@@ -63,6 +63,8 @@ newCard = '';
 cardFront= '';
 cardBack= '';
 
+flipClass = '';
+
 issueError = 0;
 gameError = 0;
 trendError = 0;
@@ -307,6 +309,8 @@ function latestIssues(responseJSON){
         issueLink = responseJSON.data.results[i].urls[0].url;
         //console.log('issueLink: ' + issueLink);
 
+        flipClass = 'flip' + i;
+
         backInfo = '<h2>' + issueTitle + '</h2>';
         backInfo = backInfo + '<p>' + issueDescibe + '</p>';
         backInfo = '<div id=' + issueID + ' onclick="comicLink(' + issueID + ',' + issueLink + ')">' + backInfo + '</div>';
@@ -317,7 +321,7 @@ function latestIssues(responseJSON){
         cardFront = issuePicture;
         cardBack = backInfo;
 
-        newCard = " <div class='flipper'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
+        newCard = " <div class='flipper " + flipClass + "'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
         
         //add avengers jpg temp
     
@@ -392,7 +396,7 @@ async function findGames(gameJSON){
 
 }
 
-function latestGames(guidJSON){
+async function latestGames(guidJSON){
     console.log('latestGames ran');
 
     let gameCount = 5; //number of issues in the 'recent' section
@@ -407,9 +411,11 @@ function latestGames(guidJSON){
      for (i = 0; i < gameCount; i++){
 
         gameCap = guidJSON.results.games[i].api_detail_url;
-        divID = 'game' + i;        
+        divID = 'game' + i;
+        
+        flipClass = 'flip' + i;       
 
-      populateGames(gameCap, divID);
+      await populateGames(gameCap, divID, flipClass);
         
      }
 
@@ -421,7 +427,7 @@ function latestGames(guidJSON){
 
 }
 
-async function populateGames(newGame, ID){
+async function populateGames(newGame, ID, flippy){
     console.log('populateGames ran');
 
     newGame = corsAnywhere + newGame + '?api_key=' + bombAPI + '&format=json';
@@ -429,12 +435,12 @@ async function populateGames(newGame, ID){
 
     await fetch(newGame) //{mode: "no-cors"}
    .then(response => response.json())
-   .then(responseJSON => loadGame(responseJSON, ID))
+   .then(responseJSON => loadGame(responseJSON, ID, flippy))
    .catch(err=>  $('#errorLog').append('<p>Game error</p>'));
 
 }
 
-function loadGame(coverJSON, backID){
+function loadGame(coverJSON, backID, flippy){
     console.log('loadGame ran');
 
     let gameCover = coverJSON.results.image.medium_url;
@@ -455,7 +461,7 @@ function loadGame(coverJSON, backID){
         cardFront = gameCover;
         cardBack = gameBack;
 
-        newCard = " <div class='flipper'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
+        newCard = " <div class='flipper " + flippy + "'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
 
     $('#games').append(
         newCard
@@ -508,6 +514,8 @@ function getTrending(trendingJSON){
         videoCap = '<img src="' + videoCap + '">';
 
         trendID = 'trend' + i;
+        
+        flipClass = 'flip' + i;
 
         trendLink = trendingJSON.items[i].id.videoId;
         console.log ('video id: ' + trendLink);
@@ -528,7 +536,7 @@ function getTrending(trendingJSON){
         cardFront = videoCap;
         cardBack = trendBack;
 
-        newCard = " <div class='flipper'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
+        newCard = " <div class='flipper " + flipClass + "'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
     
         $('#trending').append(
             newCard
