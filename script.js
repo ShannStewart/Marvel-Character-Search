@@ -5,7 +5,7 @@ const ts = '1';
 
 const bombAPI = '91c6a17d06ec9512747ce30cfef6796a316cdbdd'; //giantbomb API
 
-const googleAPI = 'AIzaSyCnkPdlkgj_wSO3QJS9GY4xwWyNtHFU9f0';
+const googleAPI = 'AIzaSyAGkx9PasW-0DD2okuG7OMyFGpNx3COn1U';
 
 const corsAnywhere = 'https://cors-anywhere.herokuapp.com/';
 
@@ -47,6 +47,9 @@ gameDescibe = '';
 
 divID = '';
 divLink = '';
+
+trendTitle = '';
+trendDescibe = '';
 
 trendID = '';
 trendLink = '';
@@ -505,8 +508,16 @@ function getTrending(trendingJSON){
 
         trendID = 'trend' + i;
 
-        trendBack = '<img src="avengers.jpg">';
-        trendBack = '<div id="' + trendID + '">' + trendBack + '</div>'
+        trendtitle = trendingJSON.items[i].snippet.title;
+        trendDescibe = trendingJSON.items[i].snippet.description;
+        
+        trendDescibe = truncate(trendDescibe);
+
+        //trendBack = '<img src="avengers.jpg">';
+
+        trendback = '<h2>' + trendtitle + '</h2>';
+        trendback = trendback + '<p>' + trendDescibe + '</p>';
+        trendBack = '<div id="' + trendID + '">' + trendBack + '</div>';
         //trendBack = '<div id=' + trendID + ' onclick="comicLink(' + trendID + ',' + trendLink + ')">' + trendBack + '</div>';
 
         cardFront = videoCap;
@@ -517,6 +528,8 @@ function getTrending(trendingJSON){
         $('#trending').append(
             newCard
         );
+
+        trendback = '';
 
     }
 
