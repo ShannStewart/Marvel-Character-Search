@@ -48,6 +48,10 @@ gameDescibe = '';
 divID = '';
 divLink = '';
 
+trendID = '';
+trendLink = '';
+trendBack = '';
+
 backInfo = '';
 gameBack = '';
 
@@ -232,7 +236,7 @@ function populateProfile (profileJSON){
     getName();
     getSecondID();
     findGameID();
-    //findTrending();
+    findTrending();
 }
 
 async function getSecondID(){
@@ -499,10 +503,14 @@ function getTrending(trendingJSON){
     
         videoCap = '<img src="' + videoCap + '">';
 
-        backInfo = '<img src="avengers.jpg">';
+        trendID = 'trend' + i;
+
+        trendBack = '<img src="avengers.jpg">';
+        trendBack = '<div id="' + trendID + '">' + trendBack + '</div>'
+        //trendBack = '<div id=' + trendID + ' onclick="comicLink(' + trendID + ',' + trendLink + ')">' + trendBack + '</div>';
 
         cardFront = videoCap;
-        cardBack = backInfo;
+        cardBack = trendBack;
 
         newCard = " <div class='flipper'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
     
