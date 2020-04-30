@@ -54,6 +54,7 @@ trendDescibe = '';
 trendID = '';
 trendLink = '';
 trendBack = '';
+trendLine = '';
 
 backInfo = '';
 gameBack = '';
@@ -508,6 +509,10 @@ function getTrending(trendingJSON){
 
         trendID = 'trend' + i;
 
+        trendLink = trendingJSON.items[i].id.videoId;
+        console.log ('video id: ' + trendLink);
+        trendLink = 'https://www.youtube.com/watch?v=' + trendLink;
+
         trendtitle = trendingJSON.items[i].snippet.title;
         trendDescibe = trendingJSON.items[i].snippet.description;
         
@@ -515,10 +520,10 @@ function getTrending(trendingJSON){
 
         //trendBack = '<img src="avengers.jpg">';
 
-        trendback = '<h2>' + trendtitle + '</h2>';
-        trendback = trendback + '<p>' + trendDescibe + '</p>';
-        trendBack = '<div id="' + trendID + '">' + trendBack + '</div>';
-        //trendBack = '<div id=' + trendID + ' onclick="comicLink(' + trendID + ',' + trendLink + ')">' + trendBack + '</div>';
+        trendBack = '<h2>' + trendtitle + '</h2>';
+        trendBack = trendBack + '<p>' + trendDescibe + '</p>';
+        //trendBack = '<div id="' + trendID + '">' + trendBack + '</div>';
+        trendBack = '<div id=' + trendID + ' onclick="comicLink(' + trendID + ',' + trendLink + ')">' + trendBack + '</div>';
 
         cardFront = videoCap;
         cardBack = trendBack;
@@ -529,7 +534,7 @@ function getTrending(trendingJSON){
             newCard
         );
 
-        trendback = '';
+        comicLink(trendID, trendLink);
 
     }
 
