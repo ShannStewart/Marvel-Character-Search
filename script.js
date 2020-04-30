@@ -283,7 +283,7 @@ function latestIssues(responseJSON){
 
         backInfo = '<h2>' + issueTitle + '</h2>';
         backInfo = backInfo + '<p>' + issueDescibe + '</p>';
-        backInfo = '<div id=' + issueID + '>' + backInfo + '</div>';
+        backInfo = '<div id=' + issueID + ' onclick="comicLink(' + issueID + ',' + issueLink + ')">' + backInfo + '</div>';
         //console.log('backinfo is' + backInfo);
         //backInfo = '<img src=avengers.jpg>';
         //backInfo Marker
@@ -298,6 +298,8 @@ function latestIssues(responseJSON){
         $('#recent').append(
             newCard
         );
+
+        comicLink(issueID, issueLink);
 
         issueError++;
 
@@ -513,6 +515,14 @@ function truncate(str) {
     let newStr = str.split(" ").splice(0,35).join(" ");
     newStr = newStr + '...';
     return newStr; 
+}
+
+function comicLink(page, link){
+    page = '#' + page;
+    $(page).on('click', function(){
+        window.open(link);    
+   });
+       
 }
 
 $(readyFunctions);

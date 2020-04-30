@@ -106,6 +106,10 @@ section{
     font-style: oblique;
 }
 
+.cardBack:hover{
+    cursor: pointer;
+}
+
   .card:hover{
     transform: rotateY(180deg);
   }
