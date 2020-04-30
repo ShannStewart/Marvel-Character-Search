@@ -193,9 +193,11 @@ function populateProfile (profileJSON){
     let searchIdentity = '<h2>' + searchName + '</h2>';
     console.log('identity is ' + searchIdentity);
 
+    issueID = 'firstCover'
+
     issueName = '<h2>' + issueName + '</h2>';
     issueName = issueName + '<p>' + issueDescibe + '</p>';
-    issueName = '<div>' + issueName + '</div>';
+    issueName = '<div id=' + issueID + ' onclick="comicLink(' + issueID + ',' + issueLink + ')">' + issueName + '</div>';
 
 
     //console.log('Searching for character picture: ' + searchPicture);
@@ -270,6 +272,11 @@ function latestIssues(responseJSON){
         issueTitle = responseJSON.data.results[i].title;
         //console.log('the title is' + issueTitle);
         issueDescibe = responseJSON.data.results[i].description;
+
+        if (issueDescibe = 'null'){
+            issueDescibe = 'A summery for this issue is not in the database';
+        }
+
         issueDescibe = truncate(issueDescibe);
         //console.log('the story is ' + issueDescibe);
     
@@ -279,7 +286,7 @@ function latestIssues(responseJSON){
 
         issueID = 'comic' + i;
         issueLink = responseJSON.data.results[i].urls[0].url;
-        console.log('issueLink: ' + issueLink);
+        //console.log('issueLink: ' + issueLink);
 
         backInfo = '<h2>' + issueTitle + '</h2>';
         backInfo = backInfo + '<p>' + issueDescibe + '</p>';
@@ -334,6 +341,7 @@ async function findGameID(){
     })
        .catch(err=>  {
         $('#errorLog').append('<p>No games found</p>'),
+        gameError = 0,
         console.log('Only ' + gameError +   ' games were made. Need to fill space'),
         spaceFill(gameError, 'games')
         
@@ -415,6 +423,7 @@ function loadGame(coverJSON){
     gameCover = '<img src="' + gameCover + '">';
 
     backInfo = '<img src="avengers.jpg">';
+    //backInfo = '<div id=' + issueID + ' onclick="comicLink(' + issueID + ',' + issueLink + ')">' + backInfo + '</div>';
 
         cardFront = gameCover;
         cardBack = backInfo;
