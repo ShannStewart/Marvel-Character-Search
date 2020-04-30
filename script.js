@@ -34,6 +34,8 @@ issueExtension = '';
 
 issueTitle = '';
 issueDescibe = '';
+
+issueID = '';
 issueLink = '';
 
 videoCap = '';
@@ -275,11 +277,14 @@ function latestIssues(responseJSON){
     
         issuePicture = '<img src="' + issuePicture + '">';
 
+        issueID = 'comic' + i;
+        issueLink = responseJSON.data.results[i].urls[0].url;
+        console.log('issueLink: ' + issueLink);
 
         backInfo = '<h2>' + issueTitle + '</h2>';
         backInfo = backInfo + '<p>' + issueDescibe + '</p>';
-        backInfo = '<div>' + backInfo + '</div>';
-        console.log('backinfo is' + backInfo);
+        backInfo = '<div id=' + issueID + '>' + backInfo + '</div>';
+        //console.log('backinfo is' + backInfo);
         //backInfo = '<img src=avengers.jpg>';
         //backInfo Marker
 
