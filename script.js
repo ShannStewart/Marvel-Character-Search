@@ -42,7 +42,14 @@ videoCap = '';
 
 gameID = 0;
 
+gameTitle = '';
+gameDescibe = '';
+
+divID = '';
+divLink = '';
+
 backInfo = '';
+gameBack = '';
 
 newCard = '';
 cardFront= '';
@@ -52,7 +59,7 @@ issueError = 0;
 gameError = 0;
 trendError = 0;
 
-appFrame = '<div><form id="characterSearch"><input type="text" name="characterName" id="characterName" value="Peter Parker" required><div><input type="submit" value="Search" class="findCharacter"></div></form><img src="logo.jpg" class="marvelLogo"><div id="displayName"></div> </div><section class="basicInfo"> <div id="profile"> <div id="characterPic"></div>  </div><div id="firstApperance">  <div class="flipper"><div class="card"><div id="firstCover" class="flipSide cardFront"></div><div id="firstTitle" class="flipSide cardBack"></div></div></div></div> </section><section class="infoRow">  <div id="recent"></div>  </section><section class="infoRow">    <div id="games"></div>  </section><section class="infoRow">    <div id="trending"></div>  </section>';
+appFrame = '<div><form id="characterSearch"><input type="text" name="characterName" id="characterName" value="Peter Parker" required><div><input type="submit" value="Search" class="findCharacter"></div></form><img src="logo.jpg" class="marvelLogo"><div id="errorLog"></div><div id="displayName"></div> </div><section class="basicInfo"> <div id="profile"> <div id="characterPic"></div>  </div><div id="firstApperance">  <div class="flipper"><div class="card"><div id="firstCover" class="flipSide cardFront"></div><div id="firstTitle" class="flipSide cardBack"></div></div></div></div> </section><section class="infoRow">  <div id="recent"></div>  </section><section class="infoRow">    <div id="games"></div>  </section><section class="infoRow">    <div id="trending"></div>  </section>';
 
 function readyFunctions(){
         console.log('readyfunction ran');
@@ -104,6 +111,8 @@ function emptyDisplays(){
     $('#displayName').empty();
     $('#firstCover').empty();
     $('#firstTitle').empty();
+
+    $('errorLog').empty();
 
     $('#recent').empty();
     $('#movies').empty();
@@ -182,7 +191,7 @@ function populateProfile (profileJSON){
     issueDescibe = profileJSON.data.results[0].description;
     issueLink = profileJSON.data.results[0].urls[0].url;
 
-    if (issueDescibe = 'null'){
+    if (issueDescibe == 'null'){
         issueDescibe = 'A summery for this issue is not in the database';
     }
 
@@ -217,6 +226,8 @@ function populateProfile (profileJSON){
     $('#firstTitle').append(
         issueName
     );
+
+    comicLink(issueID, issueLink);
 
     getName();
     getSecondID();
@@ -273,7 +284,7 @@ function latestIssues(responseJSON){
         //console.log('the title is' + issueTitle);
         issueDescibe = responseJSON.data.results[i].description;
 
-        if (issueDescibe = 'null'){
+        if (issueDescibe === 'null'){
             issueDescibe = 'A summery for this issue is not in the database';
         }
 
@@ -388,9 +399,9 @@ function latestGames(guidJSON){
      for (i = 0; i < gameCount; i++){
 
         gameCap = guidJSON.results.games[i].api_detail_url;
-        
+        divID = 'game' + i;        
 
-      populateGames(gameCap);
+      populateGames(gameCap, divID);
         
      }
 
@@ -402,7 +413,7 @@ function latestGames(guidJSON){
 
 }
 
-async function populateGames(newGame){
+async function populateGames(newGame, ID){
     console.log('populateGames ran');
 
     newGame = corsAnywhere + newGame + '?api_key=' + bombAPI + '&format=json';
@@ -410,29 +421,39 @@ async function populateGames(newGame){
 
     await fetch(newGame) //{mode: "no-cors"}
    .then(response => response.json())
-   .then(responseJSON => loadGame(responseJSON))
+   .then(responseJSON => loadGame(responseJSON, ID))
    .catch(err=>  $('#errorLog').append('<p>Game error</p>'));
 
 }
 
-function loadGame(coverJSON){
+function loadGame(coverJSON, backID){
     console.log('loadGame ran');
 
     let gameCover = coverJSON.results.image.medium_url;
 
     gameCover = '<img src="' + gameCover + '">';
 
-    backInfo = '<img src="avengers.jpg">';
-    //backInfo = '<div id=' + issueID + ' onclick="comicLink(' + issueID + ',' + issueLink + ')">' + backInfo + '</div>';
+    gameTitle = coverJSON.results.name;
+    //console.log('title: ' + gameTitle);
+
+    divLink = coverJSON.results.site_detail_url;
+    //console.log('link: ' + divLink);
+
+    //backInfo = '<img src="avengers.jpg">';
+    gameBack = '<h2>' + gameTitle + '</h2>';
+    //gameBack = '<div id=' + backID + '>' + gameBack + '</div>';
+    gameBack = '<div id=' + backID + ' onclick="comicLink(' + backID + ',' + divLink + ')">' + gameBack + '</div>';
 
         cardFront = gameCover;
-        cardBack = backInfo;
+        cardBack = gameBack;
 
         newCard = " <div class='flipper'><div class='card'> <div class='flipSide cardFront'>" + cardFront + "</div> <div class='flipSide cardBack'>" + cardBack + "</div> </div> </div>";
 
     $('#games').append(
         newCard
     );
+
+    comicLink(backID, divLink);
     
         gameError ++;
         

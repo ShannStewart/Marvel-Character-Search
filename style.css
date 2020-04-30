@@ -190,6 +190,10 @@ h2 {
     font-family: 'Marvel';
 }
 
+#errorlog p{
+    color: red;
+}
+
 @font-face {
 font-family: 'Marvel';
 src: url('MarvelRegular.ttf')
