@@ -34,8 +34,11 @@
     .flip3{
         display: none !important;
     }
+    .flip2{
+        display: none !important;
+    }
     div .flipper{
-        width: 33.33% !important;
+        width: 50% !important;
     }
     .cardBack div h2 {
         margin-left: 5%;
