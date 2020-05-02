@@ -4,7 +4,7 @@ const ts = '1';
 
 const bombAPI = '91c6a17d06ec9512747ce30cfef6796a316cdbdd'; //giantbomb API
 
-const googleAPI = 'AIzaSyAGkx9PasW-0DD2okuG7OMyFGpNx3COn1U';
+const googleAPI = 'AIzaSyCGZnbn9Z9UTb7twkK-i7c96Ep6MVO7AGg';
 
 const corsAnywhere = 'https://cors-anywhere.herokuapp.com/';
 
