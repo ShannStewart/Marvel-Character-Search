@@ -13,7 +13,7 @@ Google Youtube API
 
 The marvel character search app allows the user to search a Marvel Comics character through the Marvel API. It will then provide the user with recent apperances of that character in comics, games and youtube videos. This infomation will appear to the user as card like tiles. 
 
-![image](./napkin/screens/cards.png) 
+![image](./napkin/screens/cards.PNG) 
 
 These tiles will feature the covers for these bit of media, providing futher informaiton when the user hovers over the card.
 
@@ -23,4 +23,4 @@ These cards will provide titles and desciptions if availible. By clicking the ca
 
 Any errors in the app will appear between the search bar and Marvel logo. 
 
-![image](./napkin/screens/errorlog.png)
+![image](./napkin/screens/errorlog.PNG)
